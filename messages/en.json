@@ -1,0 +1,103 @@
+{
+  "home": {
+    "title": "🎬 Video Downloader",
+    "subtitle": "Easily download videos from your favorite platforms",
+    "instagram": "Instagram",
+    "youtube": "YouTube",
+    "facebook": "Facebook",
+    "x": "X (formerly Twitter)",
+    "tiktok": "TikTok"
+  },
+
+  "instagram": {
+    "title": "Download an Instagram video",
+    "placeholder": "Paste the Instagram link here",
+    "button": "Download",
+    "success": "✅ Download completed",
+    "error": "❌ Please paste an Instagram link"
+  },
+
+  "youtube": {
+    "title": "Download a YouTube video",
+    "placeholder": "Paste the YouTube link here",
+    "button": "Download",
+    "success": "✅ YouTube download completed",
+    "error": "❌ Please paste a YouTube link",
+    "loading": "Downloading…"
+  },
+
+  "tiktok": {
+    "title": "Download a TikTok video",
+    "placeholder": "Paste the TikTok link here",
+    "button": "Download",
+    "success": "✅ TikTok download completed",
+    "error": "❌ Please paste a TikTok link",
+    "loading": "Downloading…"
+  },
+
+  "x": {
+    "title": "Download an X (Twitter) video",
+    "placeholder": "Paste the X / Twitter link here",
+    "button": "Download",
+    "success": "✅ X download completed",
+    "error": "❌ Please paste an X / Twitter link",
+    "loading": "Downloading…"
+  },
+
+  "facebook": {
+    "title": "Download a Facebook video",
+    "placeholder": "Paste the Facebook link here",
+    "button": "Download",
+    "success": "✅ Facebook download completed",
+    "error": "❌ Please paste a Facebook link",
+    "loading": "Downloading…"
+  },
+
+  "menu": {
+    "home": "Home",
+    "help": "Help"
+  },
+
+  "footer": {
+    "home": "Home",
+    "terms": "Terms & Conditions",
+    "contact": "Contact",
+    "rights": "All rights reserved"
+  },
+
+  "help": {
+    "title": "❓ Help Page",
+    "description": "Simply paste the video link from Instagram, YouTube, TikTok, Facebook or X, then click Download.\n\nIf a problem occurs, make sure the link is public."
+  },
+
+  "terms": {
+    "title": "Terms & Conditions",
+    "updated": "Last updated: {date}",
+    "section1": {
+      "title": "1. Service overview",
+      "text": "SAVED is a tool that allows downloading publicly available content."
+    },
+    "section2": {
+      "title": "2. User responsibility",
+      "text": "The user is solely responsible for how downloaded files are used."
+    },
+    "section3": {
+      "title": "3. Limitation of liability",
+      "text": "SAVED does not store any video content on its servers."
+    },
+    "section4": {
+      "title": "4. Modifications",
+      "text": "SAVED reserves the right to modify these terms at any time."
+    }
+  },
+
+  "contact": {
+    "title": "📩 Contact",
+    "email": "Your email",
+    "message": "Your message",
+    "send": "Send",
+    "sending": "Sending…",
+    "success": "Message sent successfully ✅",
+    "error": "An error occurred ❌"
+  }
+}

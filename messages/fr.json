@@ -1,0 +1,103 @@
+{
+  "home": {
+    "title": "🎬 Téléchargeur de vidéos",
+    "subtitle": "Télécharge facilement des vidéos depuis tes plateformes préférées",
+    "instagram": "Instagram",
+    "youtube": "YouTube",
+    "facebook": "Facebook",
+    "x": "X (Nouveau Twitter)",
+    "tiktok": "TikTok"
+  },
+
+  "instagram": {
+    "title": "Télécharger une vidéo Instagram",
+    "placeholder": "Collez le lien Instagram ici",
+    "button": "Télécharger",
+    "success": "✅ Téléchargement terminé",
+    "error": "❌ Veuillez coller un lien Instagram"
+  },
+
+  "youtube": {
+    "title": "Télécharger une vidéo YouTube",
+    "placeholder": "Collez le lien YouTube ici",
+    "button": "Télécharger",
+    "success": "✅ Téléchargement YouTube terminé",
+    "error": "❌ Veuillez coller un lien YouTube",
+    "loading": "Téléchargement en cours…"
+  },
+
+  "tiktok": {
+    "title": "Télécharger une vidéo TikTok",
+    "placeholder": "Collez le lien TikTok ici",
+    "button": "Télécharger",
+    "success": "✅ Téléchargement TikTok terminé",
+    "error": "❌ Veuillez coller un lien TikTok",
+    "loading": "Téléchargement en cours…"
+  },
+
+  "x": {
+    "title": "Télécharger une vidéo X (Twitter)",
+    "placeholder": "Collez le lien X / Twitter ici",
+    "button": "Télécharger",
+    "success": "✅ Téléchargement X terminé",
+    "error": "❌ Veuillez coller un lien X / Twitter",
+    "loading": "Téléchargement en cours…"
+  },
+
+  "facebook": {
+    "title": "Télécharger une vidéo Facebook",
+    "placeholder": "Collez le lien Facebook ici",
+    "button": "Télécharger",
+    "success": "✅ Téléchargement Facebook terminé",
+    "error": "❌ Veuillez coller un lien Facebook",
+    "loading": "Téléchargement en cours…"
+  },
+
+  "menu": {
+    "home": "Accueil",
+    "help": "Aide"
+  },
+
+  "footer": {
+    "home": "Accueil",
+    "terms": "Termes & conditions",
+    "contact": "Contact",
+    "rights": "Tous droits réservés"
+  },
+
+  "help": {
+    "title": "❓ Page d’aide",
+    "description": "Collez simplement le lien de la vidéo depuis Instagram, YouTube, TikTok, Facebook ou X, puis cliquez sur Télécharger.\n\nSi un problème survient, vérifiez que le lien est public."
+  },
+
+  "terms": {
+    "title": "Termes & Conditions",
+    "updated": "Dernière mise à jour : {date}",
+    "section1": {
+      "title": "1. Présentation du service",
+      "text": "SAVED est un outil permettant de télécharger des contenus accessibles publiquement."
+    },
+    "section2": {
+      "title": "2. Responsabilité de l’utilisateur",
+      "text": "L’utilisateur est seul responsable de l’usage des fichiers téléchargés."
+    },
+    "section3": {
+      "title": "3. Limitation de responsabilité",
+      "text": "SAVED ne stocke aucun contenu vidéo sur ses serveurs."
+    },
+    "section4": {
+      "title": "4. Modifications",
+      "text": "SAVED se réserve le droit de modifier ces termes à tout moment."
+    }
+  },
+
+  "contact": {
+    "title": "📩 Contact",
+    "email": "Votre email",
+    "message": "Votre message",
+    "send": "Envoyer",
+    "sending": "Envoi…",
+    "success": "Message envoyé avec succès ✅",
+    "error": "Une erreur est survenue ❌"
+  }
+}

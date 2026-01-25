@@ -1,0 +1,103 @@
+{
+  "home": {
+    "title": "🎬 Downloader de vídeos",
+    "subtitle": "Baixe facilmente vídeos das suas plataformas favoritas",
+    "instagram": "Instagram",
+    "youtube": "YouTube",
+    "facebook": "Facebook",
+    "x": "X (antigo Twitter)",
+    "tiktok": "TikTok"
+  },
+
+  "instagram": {
+    "title": "Baixar um vídeo do Instagram",
+    "placeholder": "Cole aqui o link do Instagram",
+    "button": "Baixar",
+    "success": "✅ Download concluído",
+    "error": "❌ Cole um link do Instagram"
+  },
+
+  "youtube": {
+    "title": "Baixar um vídeo do YouTube",
+    "placeholder": "Cole aqui o link do YouTube",
+    "button": "Baixar",
+    "success": "✅ Download do YouTube concluído",
+    "error": "❌ Cole um link do YouTube",
+    "loading": "Baixando…"
+  },
+
+  "tiktok": {
+    "title": "Baixar um vídeo do TikTok",
+    "placeholder": "Cole aqui o link do TikTok",
+    "button": "Baixar",
+    "success": "✅ Download do TikTok concluído",
+    "error": "❌ Cole um link do TikTok",
+    "loading": "Baixando…"
+  },
+
+  "x": {
+    "title": "Baixar um vídeo do X (Twitter)",
+    "placeholder": "Cole aqui o link do X / Twitter",
+    "button": "Baixar",
+    "success": "✅ Download do X concluído",
+    "error": "❌ Cole um link do X / Twitter",
+    "loading": "Baixando…"
+  },
+
+  "facebook": {
+    "title": "Baixar um vídeo do Facebook",
+    "placeholder": "Cole aqui o link do Facebook",
+    "button": "Baixar",
+    "success": "✅ Download do Facebook concluído",
+    "error": "❌ Cole um link do Facebook",
+    "loading": "Baixando…"
+  },
+
+  "menu": {
+    "home": "Início",
+    "help": "Ajuda"
+  },
+
+  "footer": {
+    "home": "Início",
+    "terms": "Termos e condições",
+    "contact": "Contato",
+    "rights": "Todos os direitos reservados"
+  },
+
+  "help": {
+    "title": "❓ Página de ajuda",
+    "description": "Cole simplesmente o link do vídeo do Instagram, YouTube, TikTok, Facebook ou X e clique em Baixar.\n\nSe ocorrer um problema, verifique se o link é público."
+  },
+
+  "terms": {
+    "title": "Termos e condições",
+    "updated": "Última atualização: {date}",
+    "section1": {
+      "title": "1. Apresentação do serviço",
+      "text": "SAVED é uma ferramenta que permite baixar conteúdos disponíveis publicamente."
+    },
+    "section2": {
+      "title": "2. Responsabilidade do usuário",
+      "text": "O usuário é o único responsável pelo uso dos arquivos baixados."
+    },
+    "section3": {
+      "title": "3. Limitação de responsabilidade",
+      "text": "SAVED não armazena nenhum conteúdo de vídeo em seus servidores."
+    },
+    "section4": {
+      "title": "4. Modificações",
+      "text": "SAVED reserva-se o direito de modificar estes termos a qualquer momento."
+    }
+  },
+
+  "contact": {
+    "title": "📩 Contato",
+    "email": "Seu email",
+    "message": "Sua mensagem",
+    "send": "Enviar",
+    "sending": "Enviando…",
+    "success": "Mensagem enviada com sucesso ✅",
+    "error": "Ocorreu um erro ❌"
+  }
+}

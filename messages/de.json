@@ -1,0 +1,103 @@
+{
+  "home": {
+    "title": "🎬 Video-Downloader",
+    "subtitle": "Lade Videos einfach von deinen Lieblingsplattformen herunter",
+    "instagram": "Instagram",
+    "youtube": "YouTube",
+    "facebook": "Facebook",
+    "x": "X (ehemals Twitter)",
+    "tiktok": "TikTok"
+  },
+
+  "instagram": {
+    "title": "Instagram-Video herunterladen",
+    "placeholder": "Instagram-Link hier einfügen",
+    "button": "Herunterladen",
+    "success": "✅ Download abgeschlossen",
+    "error": "❌ Bitte einen Instagram-Link einfügen"
+  },
+
+  "youtube": {
+    "title": "YouTube-Video herunterladen",
+    "placeholder": "YouTube-Link hier einfügen",
+    "button": "Herunterladen",
+    "success": "✅ YouTube-Download abgeschlossen",
+    "error": "❌ Bitte einen YouTube-Link einfügen",
+    "loading": "Wird heruntergeladen…"
+  },
+
+  "tiktok": {
+    "title": "TikTok-Video herunterladen",
+    "placeholder": "TikTok-Link hier einfügen",
+    "button": "Herunterladen",
+    "success": "✅ TikTok-Download abgeschlossen",
+    "error": "❌ Bitte einen TikTok-Link einfügen",
+    "loading": "Wird heruntergeladen…"
+  },
+
+  "x": {
+    "title": "X-(Twitter)-Video herunterladen",
+    "placeholder": "X / Twitter-Link hier einfügen",
+    "button": "Herunterladen",
+    "success": "✅ X-Download abgeschlossen",
+    "error": "❌ Bitte einen X / Twitter-Link einfügen",
+    "loading": "Wird heruntergeladen…"
+  },
+
+  "facebook": {
+    "title": "Facebook-Video herunterladen",
+    "placeholder": "Facebook-Link hier einfügen",
+    "button": "Herunterladen",
+    "success": "✅ Facebook-Download abgeschlossen",
+    "error": "❌ Bitte einen Facebook-Link einfügen",
+    "loading": "Wird heruntergeladen…"
+  },
+
+  "menu": {
+    "home": "Startseite",
+    "help": "Hilfe"
+  },
+
+  "footer": {
+    "home": "Startseite",
+    "terms": "Allgemeine Geschäftsbedingungen",
+    "contact": "Kontakt",
+    "rights": "Alle Rechte vorbehalten"
+  },
+
+  "help": {
+    "title": "❓ Hilfeseite",
+    "description": "Füge einfach den Videolink von Instagram, YouTube, TikTok, Facebook oder X ein und klicke auf Herunterladen.\n\nStelle sicher, dass der Link öffentlich ist."
+  },
+
+  "terms": {
+    "title": "Allgemeine Geschäftsbedingungen",
+    "updated": "Zuletzt aktualisiert: {date}",
+    "section1": {
+      "title": "1. Dienstbeschreibung",
+      "text": "SAVED ist ein Tool zum Herunterladen öffentlich zugänglicher Inhalte."
+    },
+    "section2": {
+      "title": "2. Verantwortung des Nutzers",
+      "text": "Der Nutzer ist allein für die Verwendung der heruntergeladenen Dateien verantwortlich."
+    },
+    "section3": {
+      "title": "3. Haftungsbeschränkung",
+      "text": "SAVED speichert keine Videoinhalte auf seinen Servern."
+    },
+    "section4": {
+      "title": "4. Änderungen",
+      "text": "SAVED behält sich das Recht vor, diese Bedingungen jederzeit zu ändern."
+    }
+  },
+
+  "contact": {
+    "title": "📩 Kontakt",
+    "email": "Ihre E-Mail",
+    "message": "Ihre Nachricht",
+    "send": "Senden",
+    "sending": "Senden…",
+    "success": "Nachricht erfolgreich gesendet ✅",
+    "error": "Ein Fehler ist aufgetreten ❌"
+  }
+}

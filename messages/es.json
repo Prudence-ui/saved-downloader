@@ -1,0 +1,103 @@
+{
+  "home": {
+    "title": "🎬 Descargador de videos",
+    "subtitle": "Descarga fácilmente videos de tus plataformas favoritas",
+    "instagram": "Instagram",
+    "youtube": "YouTube",
+    "facebook": "Facebook",
+    "x": "X (antes Twitter)",
+    "tiktok": "TikTok"
+  },
+
+  "instagram": {
+    "title": "Descargar un video de Instagram",
+    "placeholder": "Pega aquí el enlace de Instagram",
+    "button": "Descargar",
+    "success": "✅ Descarga completada",
+    "error": "❌ Por favor pega un enlace de Instagram"
+  },
+
+  "youtube": {
+    "title": "Descargar un video de YouTube",
+    "placeholder": "Pega aquí el enlace de YouTube",
+    "button": "Descargar",
+    "success": "✅ Descarga de YouTube completada",
+    "error": "❌ Por favor pega un enlace de YouTube",
+    "loading": "Descargando…"
+  },
+
+  "tiktok": {
+    "title": "Descargar un video de TikTok",
+    "placeholder": "Pega aquí el enlace de TikTok",
+    "button": "Descargar",
+    "success": "✅ Descarga de TikTok completada",
+    "error": "❌ Por favor pega un enlace de TikTok",
+    "loading": "Descargando…"
+  },
+
+  "x": {
+    "title": "Descargar un video de X (Twitter)",
+    "placeholder": "Pega aquí el enlace de X / Twitter",
+    "button": "Descargar",
+    "success": "✅ Descarga de X completada",
+    "error": "❌ Por favor pega un enlace de X / Twitter",
+    "loading": "Descargando…"
+  },
+
+  "facebook": {
+    "title": "Descargar un video de Facebook",
+    "placeholder": "Pega aquí el enlace de Facebook",
+    "button": "Descargar",
+    "success": "✅ Descarga de Facebook completada",
+    "error": "❌ Por favor pega un enlace de Facebook",
+    "loading": "Descargando…"
+  },
+
+  "menu": {
+    "home": "Inicio",
+    "help": "Ayuda"
+  },
+
+  "footer": {
+    "home": "Inicio",
+    "terms": "Términos y condiciones",
+    "contact": "Contacto",
+    "rights": "Todos los derechos reservados"
+  },
+
+  "help": {
+    "title": "❓ Página de ayuda",
+    "description": "Simplemente pega el enlace del video de Instagram, YouTube, TikTok, Facebook o X y haz clic en Descargar.\n\nSi ocurre un problema, verifica que el enlace sea público."
+  },
+
+  "terms": {
+    "title": "Términos y condiciones",
+    "updated": "Última actualización: {date}",
+    "section1": {
+      "title": "1. Presentación del servicio",
+      "text": "SAVED es una herramienta que permite descargar contenidos disponibles públicamente."
+    },
+    "section2": {
+      "title": "2. Responsabilidad del usuario",
+      "text": "El usuario es el único responsable del uso de los archivos descargados."
+    },
+    "section3": {
+      "title": "3. Limitación de responsabilidad",
+      "text": "SAVED no almacena ningún contenido de video en sus servidores."
+    },
+    "section4": {
+      "title": "4. Modificaciones",
+      "text": "SAVED se reserva el derecho de modificar estos términos en cualquier momento."
+    }
+  },
+
+  "contact": {
+    "title": "📩 Contacto",
+    "email": "Tu correo electrónico",
+    "message": "Tu mensaje",
+    "send": "Enviar",
+    "sending": "Enviando…",
+    "success": "Mensaje enviado con éxito ✅",
+    "error": "Ocurrió un error ❌"
+  }
+}
