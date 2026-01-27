@@ -13,7 +13,6 @@ export default function XPage() {
   const [url, setUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [showAd, setShowAd] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   async function handleDownload() {
@@ -23,37 +22,52 @@ export default function XPage() {
     }
 
     setLoading(true);
-    setMessage(null);
     setError(null);
     setShowAd(true);
 
     try {
-      const res = await fetch('/api/download', {
+      const res = await fetch('http://localhost:3001/download', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url }),
       });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
+      if (!res.ok) {
+        throw new Error('Download failed');
+      }
 
-      setMessage(t('success'));
+      const blob = await res.blob();
+
+      if (blob.size === 0) {
+        throw new Error('Empty file');
+      }
+
+      const downloadUrl = window.URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = downloadUrl;
+      a.download = 'video-x.mp4';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      window.URL.revokeObjectURL(downloadUrl);
       setUrl('');
-    } catch (err: any) {
-      setError(`❌ ${err.message}`);
+
+    } catch (err) {
+      console.error(err);
+      setError('❌ Erreur téléchargement');
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <main className="min-h-screen w-full flex flex-col items-center px-4 bg-transparent">
+    <main className="min-h-screen flex flex-col items-center px-4">
       <AdBanner platform="x" />
 
-      <div className="w-full max-w-xl flex flex-col items-center gap-6 mt-6">
-        <h1 className="text-3xl font-bold text-white text-center">
-          {t('title')}
-        </h1>
+      <div className="max-w-xl w-full flex flex-col gap-6 mt-6">
+        <h1 className="text-3xl font-bold text-center">{t('title')}</h1>
 
         <PasteInput
           placeholder={t('placeholder')}
@@ -71,8 +85,6 @@ export default function XPage() {
         </button>
 
         <DownloadCounter />
-
-        {message && <p className="text-green-400">{message}</p>}
         {error && <p className="text-red-400">{error}</p>}
       </div>
 
