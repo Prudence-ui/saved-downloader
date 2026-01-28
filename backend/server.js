@@ -1,7 +1,5 @@
 import express from "express";
 import cors from "cors";
-import fs from "fs";
-import os from "os";
 import path from "path";
 import ytdlp from "yt-dlp-exec";
 
@@ -9,20 +7,19 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// chemin yt-dlp installé par Render
 const YTDLP_PATH = path.resolve("backend/bin/yt-dlp");
 
 app.post("/download", async (req, res) => {
+  const { url } = req.body;
+  if (!url) return res.status(400).json({ error: "URL manquante" });
+
   try {
-    const { url } = req.body;
-    if (!url) return res.status(400).json({ error: "URL manquante" });
+    res.setHeader("Content-Disposition", 'attachment; filename="video.mp4"');
+    res.setHeader("Content-Type", "video/mp4");
 
-    const output = path.join(os.tmpdir(), `video-${Date.now()}.mp4`);
-
-    // ⚠️ IMPORTANT : utiliser exec + binPath (sinon ENOENT)
-    const subprocess = ytdlp.exec(url, {
+    const stream = ytdlp.exec(url, {
       binPath: YTDLP_PATH,
-      output: output,
+      output: "-",
 
       format: "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]/best",
       mergeOutputFormat: "mp4",
@@ -31,15 +28,11 @@ app.post("/download", async (req, res) => {
       quiet: true
     });
 
-    await subprocess;
+    stream.stdout.pipe(res);
 
-    res.setHeader("Content-Type", "video/mp4");
-    res.setHeader("Content-Disposition", 'attachment; filename="video.mp4"');
-
-    const stream = fs.createReadStream(output);
-    stream.pipe(res);
-
-    stream.on("close", () => fs.unlink(output, () => {}));
+    stream.stderr.on("data", data => {
+      console.error("yt-dlp:", data.toString());
+    });
 
   } catch (err) {
     console.error("DOWNLOAD ERROR:", err);
