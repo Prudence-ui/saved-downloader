@@ -1,47 +1,45 @@
 import express from "express";
 import cors from "cors";
 import { execFile } from "child_process";
-import fs from "fs";
 import path from "path";
-import os from "os";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+const YTDLP_PATH = path.resolve("backend/bin/yt-dlp");
 
 app.post("/download", async (req, res) => {
   try {
     const { url } = req.body;
     if (!url) return res.status(400).json({ error: "URL manquante" });
 
-    const tempFile = path.join(os.tmpdir(), `video-${Date.now()}.mp4`);
+    res.setHeader("Content-Type", "video/mp4");
+    res.setHeader("Content-Disposition", 'attachment; filename="video.mp4"');
 
     const args = [
       url,
-      "-f",
-      "bv*[vcodec^=avc1]+ba[acodec^=mp4a]/b[ext=mp4]/best",
-      "--merge-output-format",
-      "mp4",
-      "-o",
-      tempFile
+      "-o", "-",
+      "-f", "bv*[vcodec^=avc1]+ba[acodec^=mp4a]/b[ext=mp4]/best",
+      "--merge-output-format", "mp4",
+      "--no-playlist"
     ];
 
-    execFile("yt-dlp", args, async (err) => {
-      if (err) {
-        console.error("YT-DLP ERROR:", err);
-        return res.status(500).json({ error: "Erreur téléchargement" });
-      }
+    const proc = execFile(YTDLP_PATH, args, { maxBuffer: 1024 * 1024 * 100 });
 
-      res.download(tempFile, "video.mp4", () => {
-        fs.unlink(tempFile, () => {});
-      });
+    proc.stdout.pipe(res);
+
+    proc.stderr.on("data", d => console.error("yt-dlp:", d.toString()));
+
+    proc.on("error", err => {
+      console.error("EXEC ERROR:", err);
+      res.status(500).end();
     });
 
   } catch (e) {
     console.error(e);
-    res.status(500).json({ error: "Erreur serveur" });
+    res.status(500).json({ error: "Erreur téléchargement" });
   }
 });
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => console.log("Backend running on", PORT));
+app.listen(3001, () => console.log("Backend running on port 3001"));
