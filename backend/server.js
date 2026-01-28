@@ -3,34 +3,38 @@ import cors from "cors";
 import fs from "fs";
 import os from "os";
 import path from "path";
-import ytdlp from "yt-dlp-exec";
+import { spawn } from "child_process";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const YTDLP_PATH = path.resolve("backend/bin/yt-dlp");
-const COOKIES_PATH = path.resolve("backend/cookies.txt");
+const YTDLP = path.resolve("backend/bin/yt-dlp");
+const COOKIES = path.resolve("backend/cookies.txt");
 
-app.post("/download", async (req, res) => {
-  try {
-    const { url } = req.body;
-    if (!url) return res.status(400).json({ error: "URL manquante" });
+app.post("/download", (req, res) => {
+  const { url } = req.body;
+  if (!url) return res.status(400).json({ error: "URL manquante" });
 
-    const output = path.join(os.tmpdir(), `video-${Date.now()}.mp4`);
+  const output = path.join(os.tmpdir(), `video-${Date.now()}.mp4`);
 
-    await ytdlp(url, {
-      binPath: YTDLP_PATH,
-      cookies: COOKIES_PATH,
+  const args = [
+    url,
+    "--cookies", COOKIES,
+    "-f", "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]/best",
+    "--merge-output-format", "mp4",
+    "-o", output,
+    "--no-warnings",
+    "--quiet"
+  ];
 
-      output,
+  const proc = spawn(YTDLP, args);
 
-      format: "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]/best",
-      mergeOutputFormat: "mp4",
-
-      noWarnings: true,
-      quiet: true
-    });
+  proc.on("close", code => {
+    if (code !== 0) {
+      console.error("yt-dlp failed", code);
+      return res.status(500).json({ error: "Erreur téléchargement" });
+    }
 
     res.setHeader("Content-Type", "video/mp4");
     res.setHeader("Content-Disposition", 'attachment; filename="video.mp4"');
@@ -39,14 +43,8 @@ app.post("/download", async (req, res) => {
     stream.pipe(res);
 
     stream.on("close", () => fs.unlink(output, () => {}));
-
-  } catch (err) {
-    console.error("DOWNLOAD ERROR:", err);
-    res.status(500).json({ error: "Erreur téléchargement" });
-  }
+  });
 });
 
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log("Backend running on", PORT);
-});
+app.listen(PORT, () => console.log("Backend running on", PORT));
