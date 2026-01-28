@@ -1,13 +1,9 @@
 import express from "express";
 import cors from "cors";
-import ytdlp from "yt-dlp-exec";
+import fs from "fs";
+import os from "os";
 import path from "path";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const YTDLP_PATH = path.join(__dirname, "bin", "yt-dlp");
+import ytdlp from "yt-dlp-exec";
 
 const app = express();
 app.use(cors());
@@ -16,35 +12,29 @@ app.use(express.json());
 app.post("/download", async (req, res) => {
   try {
     const { url } = req.body;
+    if (!url) return res.status(400).json({ error: "URL manquante" });
 
-    if (!url) {
-      return res.status(400).json({ error: "URL manquante" });
-    }
+    const output = path.join(os.tmpdir(), `video-${Date.now()}.mp4`);
 
-    res.setHeader("Content-Disposition", 'attachment; filename="video.mp4"');
-    res.setHeader("Content-Type", "video/mp4");
+    await ytdlp(url, {
+      output,
 
-    const stream = ytdlp.exec(url, {
-      output: "-",
-      format:
-        "bv*[vcodec^=avc1]+ba[acodec^=mp4a]/b[ext=mp4]/best",
+      // 🔥 format parfait pour YouTube + Shorts + réseaux
+      format: "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best",
+
       mergeOutputFormat: "mp4",
 
-      concurrentFragments: 8,
-      fragmentRetries: 5,
-      retries: 5,
-
-      postprocessorArgs: ["-movflags", "faststart"],
       noWarnings: true,
-      quiet: true,
-
-      // 🔥 IMPORTANT POUR RENDER
-      binPath: YTDLP_PATH
+      quiet: true
     });
 
-    stream.stdout.pipe(res);
+    res.setHeader("Content-Type", "video/mp4");
+    res.setHeader("Content-Disposition", 'attachment; filename="video.mp4"');
 
-    stream.stderr.on("data", d => console.log(d.toString()));
+    const stream = fs.createReadStream(output);
+    stream.pipe(res);
+
+    stream.on("close", () => fs.unlink(output, () => {}));
 
   } catch (err) {
     console.error("DOWNLOAD ERROR:", err);
