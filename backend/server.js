@@ -6,7 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.post("/download", async (req, res) => {
+app.post("/download", (req, res) => {
   try {
     const { url } = req.body;
     if (!url) return res.status(400).json({ error: "URL manquante" });
@@ -14,13 +14,21 @@ app.post("/download", async (req, res) => {
     res.setHeader("Content-Disposition", 'attachment; filename="video.mp4"');
     res.setHeader("Content-Type", "video/mp4");
 
-    const ytdlp = spawn("yt-dlp", [
+    const args = [
       url,
+
+      // meilleure qualité vidéo + audio compatibles
       "-f",
-      "best[ext=mp4]/best",
+      "bv*[vcodec^=avc1]+ba[acodec^=mp4a]/b[ext=mp4]/best",
+
+      "--merge-output-format",
+      "mp4",
+
       "-o",
       "-"
-    ]);
+    ];
+
+    const ytdlp = spawn("yt-dlp", args);
 
     ytdlp.stdout.pipe(res);
 
@@ -28,8 +36,8 @@ app.post("/download", async (req, res) => {
       console.log("yt-dlp:", d.toString());
     });
 
-  } catch (e) {
-    console.error(e);
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Erreur téléchargement" });
   }
 });
