@@ -1,46 +1,52 @@
 import express from "express";
 import cors from "cors";
-import { spawn } from "child_process";
+import fs from "fs";
+import os from "os";
 import path from "path";
+import ytdlp from "yt-dlp-exec";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// chemin ABSOLU cookies sur Render
+const YTDLP_PATH = path.resolve("backend/bin/yt-dlp");
 const COOKIES_PATH = path.resolve("backend/cookies.txt");
 
-app.post("/download", (req, res) => {
-  const { url } = req.body;
-  if (!url) return res.status(400).json({ error: "URL manquante" });
+app.post("/download", async (req, res) => {
+  try {
+    const { url } = req.body;
+    if (!url) return res.status(400).json({ error: "URL manquante" });
 
-  res.setHeader("Content-Type", "video/mp4");
-  res.setHeader("Content-Disposition", 'attachment; filename="video.mp4"');
+    const output = path.join(os.tmpdir(), `video-${Date.now()}.mp4`);
 
-  const yt = spawn("backend/bin/yt-dlp", [
-    url,
+    await ytdlp(url, {
+      binPath: YTDLP_PATH,
+      cookies: COOKIES_PATH,
 
-    "--cookies", COOKIES_PATH,
+      output,
 
-    "-o", "-",
+      format: "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]/best",
+      mergeOutputFormat: "mp4",
 
-    "-f", "bv*[vcodec^=avc1]+ba[acodec^=mp4a]/b[ext=mp4]/best",
+      noWarnings: true,
+      quiet: true
+    });
 
-    "--merge-output-format", "mp4",
+    res.setHeader("Content-Type", "video/mp4");
+    res.setHeader("Content-Disposition", 'attachment; filename="video.mp4"');
 
-    "--no-warnings",
-    "--quiet"
-  ]);
+    const stream = fs.createReadStream(output);
+    stream.pipe(res);
 
-  yt.stdout.pipe(res);
+    stream.on("close", () => fs.unlink(output, () => {}));
 
-  yt.stderr.on("data", d => console.error("yt-dlp:", d.toString()));
-
-  yt.on("error", err => {
-    console.error("SPAWN ERROR:", err);
-    res.status(500).end();
-  });
+  } catch (err) {
+    console.error("DOWNLOAD ERROR:", err);
+    res.status(500).json({ error: "Erreur téléchargement" });
+  }
 });
 
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => console.log("Backend running on", PORT));
+app.listen(PORT, () => {
+  console.log("Backend running on", PORT);
+});
