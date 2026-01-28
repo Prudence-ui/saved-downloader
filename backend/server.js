@@ -17,13 +17,14 @@ app.post("/download", (req, res) => {
   res.setHeader("Content-Type", "video/mp4");
 
   const args = [
-    url,
-    "-o", "-",
-    "-f", "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]/best",
-    "--merge-output-format", "mp4",
-    "--no-warnings",
-    "--quiet"
-  ];
+  url,
+  "--cookies", "backend/cookies.txt",
+  "-o", "-",
+  "-f", "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]/best",
+  "--merge-output-format", "mp4",
+  "--no-warnings",
+  "--quiet"
+];
 
   const ytdlp = spawn(YTDLP, args);
 
