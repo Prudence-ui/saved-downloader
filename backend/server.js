@@ -1,44 +1,45 @@
 import express from "express";
 import cors from "cors";
-import { spawn } from "child_process";
+import { execFile } from "child_process";
+import fs from "fs";
+import path from "path";
+import os from "os";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.post("/download", (req, res) => {
+app.post("/download", async (req, res) => {
   try {
     const { url } = req.body;
     if (!url) return res.status(400).json({ error: "URL manquante" });
 
-    res.setHeader("Content-Disposition", 'attachment; filename="video.mp4"');
-    res.setHeader("Content-Type", "video/mp4");
+    const tempFile = path.join(os.tmpdir(), `video-${Date.now()}.mp4`);
 
     const args = [
       url,
-
-      // meilleure qualité vidéo + audio compatibles
       "-f",
       "bv*[vcodec^=avc1]+ba[acodec^=mp4a]/b[ext=mp4]/best",
-
       "--merge-output-format",
       "mp4",
-
       "-o",
-      "-"
+      tempFile
     ];
 
-    const ytdlp = spawn("yt-dlp", args);
+    execFile("yt-dlp", args, async (err) => {
+      if (err) {
+        console.error("YT-DLP ERROR:", err);
+        return res.status(500).json({ error: "Erreur téléchargement" });
+      }
 
-    ytdlp.stdout.pipe(res);
-
-    ytdlp.stderr.on("data", d => {
-      console.log("yt-dlp:", d.toString());
+      res.download(tempFile, "video.mp4", () => {
+        fs.unlink(tempFile, () => {});
+      });
     });
 
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Erreur téléchargement" });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "Erreur serveur" });
   }
 });
 
