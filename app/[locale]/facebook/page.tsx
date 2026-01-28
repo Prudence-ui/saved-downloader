@@ -26,7 +26,7 @@ export default function FacebookPage() {
     setShowAd(true);
 
     try {
-      const res = await fetch('https://saved-downloader-1.onrender.com/download', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/download`, {
 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
