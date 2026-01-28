@@ -13,33 +13,32 @@ app.post("/download", async (req, res) => {
   const { url } = req.body;
   if (!url) return res.status(400).json({ error: "URL manquante" });
 
-  const filePath = path.join(os.tmpdir(), `video-${Date.now()}.mp4`);
+  const file = path.join(os.tmpdir(), `video-${Date.now()}.mp4`);
 
   try {
-    await ytdlp(url, {
-      output: filePath,
+    const subprocess = ytdlp.exec(url, {
+      output: file,
 
-      // ✅ ultra compatible (Render + YouTube Shorts + HD)
-      format: "bv*[vcodec^=avc1]+ba[acodec^=mp4a]/b[ext=mp4]/best",
+      format: "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]/best",
 
       mergeOutputFormat: "mp4",
-
-      concurrentFragments: 5,
 
       noWarnings: true,
       quiet: true
     });
 
+    await subprocess;
+
     res.setHeader("Content-Type", "video/mp4");
     res.setHeader("Content-Disposition", 'attachment; filename="video.mp4"');
 
-    const stream = fs.createReadStream(filePath);
+    const stream = fs.createReadStream(file);
     stream.pipe(res);
 
-    stream.on("close", () => fs.unlink(filePath, () => {}));
+    stream.on("close", () => fs.unlink(file, () => {}));
 
   } catch (err) {
-    console.error("YT-DLP FAILED:", err);
+    console.error("YT ERROR:", err);
     res.status(500).json({ error: "Erreur téléchargement" });
   }
 });
