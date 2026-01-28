@@ -26,7 +26,8 @@ export default function TikTokPage() {
     setShowAd(true);
 
     try {
-      const res = await fetch('http://localhost:3001/download', {
+      const res = await fetch('https://saved-downloader-1.onrender.com/download', {
+
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url }),

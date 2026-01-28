@@ -18,24 +18,23 @@ app.post("/download", async (req, res) => {
     res.setHeader("Content-Type", "video/mp4");
 
     const stream = ytdlp.exec(url, {
-  output: "-",
+      output: "-",
 
-  // meilleur format rapide et compatible
-  format: "bv*[vcodec^=avc1]+ba[acodec^=mp4a]/b[ext=mp4]/best",
+      // format rapide + compatible partout
+      format: "bv*[vcodec^=avc1]+ba[acodec^=mp4a]/b[ext=mp4]/best",
 
-  mergeOutputFormat: "mp4",
+      mergeOutputFormat: "mp4",
 
-  // accélération massive
-  concurrentFragments: 8,
-  retries: 5,
-  fragmentRetries: 5,
+      // accélération forte
+      concurrentFragments: 8,
+      retries: 5,
+      fragmentRetries: 5,
 
-  // pas de traitement inutile
-  postprocessorArgs: ["-movflags", "faststart"],
+      postprocessorArgs: ["-movflags", "faststart"],
 
-  noWarnings: true,
-  quiet: true
-});
+      noWarnings: true,
+      quiet: true,
+    });
 
     stream.stdout.pipe(res);
 
@@ -45,6 +44,10 @@ app.post("/download", async (req, res) => {
   }
 });
 
-app.listen(3001, () => {
-  console.log("Backend running on port 3001");
+
+// ✅ PORT DYNAMIQUE POUR RENDER (TRÈS IMPORTANT)
+const PORT = process.env.PORT || 3001;
+
+app.listen(PORT, () => {
+  console.log("Backend running on port", PORT);
 });
