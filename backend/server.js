@@ -1,43 +1,42 @@
 import express from "express";
 import cors from "cors";
+import { spawn } from "child_process";
 import path from "path";
-import ytdlp from "yt-dlp-exec";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const YTDLP_PATH = path.resolve("backend/bin/yt-dlp");
+const YTDLP = path.resolve("backend/bin/yt-dlp");
 
-app.post("/download", async (req, res) => {
+app.post("/download", (req, res) => {
   const { url } = req.body;
   if (!url) return res.status(400).json({ error: "URL manquante" });
 
-  try {
-    res.setHeader("Content-Disposition", 'attachment; filename="video.mp4"');
-    res.setHeader("Content-Type", "video/mp4");
+  res.setHeader("Content-Disposition", 'attachment; filename="video.mp4"');
+  res.setHeader("Content-Type", "video/mp4");
 
-    const stream = ytdlp.exec(url, {
-      binPath: YTDLP_PATH,
-      output: "-",
+  const args = [
+    url,
+    "-o", "-",
+    "-f", "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]/best",
+    "--merge-output-format", "mp4",
+    "--no-warnings",
+    "--quiet"
+  ];
 
-      format: "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]/best",
-      mergeOutputFormat: "mp4",
+  const ytdlp = spawn(YTDLP, args);
 
-      noWarnings: true,
-      quiet: true
-    });
+  ytdlp.stdout.pipe(res);
 
-    stream.stdout.pipe(res);
+  ytdlp.stderr.on("data", data => {
+    console.error("yt-dlp:", data.toString());
+  });
 
-    stream.stderr.on("data", data => {
-      console.error("yt-dlp:", data.toString());
-    });
-
-  } catch (err) {
-    console.error("DOWNLOAD ERROR:", err);
-    res.status(500).json({ error: "Erreur téléchargement" });
-  }
+  ytdlp.on("error", err => {
+    console.error("SPAWN ERROR:", err);
+    res.status(500).end();
+  });
 });
 
 const PORT = process.env.PORT || 3001;
