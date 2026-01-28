@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import ytdlp from "yt-dlp-exec";
+import { spawn } from "child_process";
 
 const app = express();
 app.use(cors());
@@ -14,25 +14,25 @@ app.post("/download", async (req, res) => {
     res.setHeader("Content-Disposition", 'attachment; filename="video.mp4"');
     res.setHeader("Content-Type", "video/mp4");
 
-    const stream = ytdlp.exec(url, {
-      output: "-",
+    const ytdlp = spawn("yt-dlp", [
+      url,
+      "-f",
+      "best[ext=mp4]/best",
+      "-o",
+      "-"
+    ]);
 
-      // format direct MP4 → pas besoin ffmpeg (important sur Render)
-      format: "best[ext=mp4]/best",
+    ytdlp.stdout.pipe(res);
 
-      noWarnings: true,
-      quiet: true,
+    ytdlp.stderr.on("data", d => {
+      console.log("yt-dlp:", d.toString());
     });
 
-    stream.stdout.pipe(res);
-
-  } catch (err) {
-    console.error("DOWNLOAD ERROR:", err);
+  } catch (e) {
+    console.error(e);
     res.status(500).json({ error: "Erreur téléchargement" });
   }
 });
 
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log("Backend running on port", PORT);
-});
+app.listen(PORT, () => console.log("Backend running on", PORT));
