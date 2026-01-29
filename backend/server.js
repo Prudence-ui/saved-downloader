@@ -9,13 +9,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// yt-dlp stocké dans backend/bin
-const YTDLP_PATH =
-  process.platform === "win32"
-    ? path.join(process.cwd(), "backend", "bin", "yt-dlp.exe")
-    : path.join(process.cwd(), "backend", "bin", "yt-dlp");
+const YTDLP = path.join(process.cwd(), "bin", "yt-dlp");
 
-app.post("/download", (req, res) => {
+app.post("/download", async (req, res) => {
   const { url } = req.body;
   if (!url) return res.status(400).json({ error: "URL manquante" });
 
@@ -23,25 +19,29 @@ app.post("/download", (req, res) => {
 
   const args = [
     url,
+
+    // 🎯 FORCE formats compatibles partout
     "-f",
-    "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]/best",
+    "bv*[vcodec!=av01][ext=mp4]+ba[ext=m4a]/b[ext=mp4]/best",
+
     "--merge-output-format",
     "mp4",
+
     "--no-playlist",
-    "--no-warnings",
+
     "-o",
     output
   ];
 
   console.log("Downloading:", url);
 
-  const proc = spawn(YTDLP_PATH, args);
+  const proc = spawn(YTDLP, args);
 
   proc.stderr.on("data", d => console.log(d.toString()));
 
   proc.on("error", err => {
-    console.error("yt-dlp failed:", err);
-    return res.status(500).json({ error: "yt-dlp error" });
+    console.error("Spawn error:", err);
+    res.status(500).json({ error: "yt-dlp error" });
   });
 
   proc.on("close", code => {
