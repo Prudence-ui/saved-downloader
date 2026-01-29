@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const YTDLP_FILE = path.join(process.cwd(), "bin", "yt-dlp");
+const YTDLP = path.join(process.cwd(), "bin", "yt-dlp");
 
 app.post("/download", (req, res) => {
   const { url } = req.body;
@@ -18,10 +18,9 @@ app.post("/download", (req, res) => {
   const output = path.join(os.tmpdir(), `video-${Date.now()}.mp4`);
 
   const args = [
-    YTDLP_FILE,
     url,
     "-f",
-    "bv*[height<=1080][ext=mp4]+ba[ext=m4a]/b[ext=mp4]/best",
+    "bv*[height<=1080]/b[height<=1080]",
     "--merge-output-format",
     "mp4",
     "--no-playlist",
@@ -29,11 +28,15 @@ app.post("/download", (req, res) => {
     output
   ];
 
-  const proc = spawn("python3", args);
+  console.log("Downloading:", url);
 
-  proc.on("close", (code) => {
-    if (code !== 0) {
-      console.log("yt-dlp failed");
+  const proc = spawn(YTDLP, args);
+
+  proc.stderr.on("data", d => console.log(d.toString()));
+
+  proc.on("close", () => {
+    if (!fs.existsSync(output)) {
+      console.log("yt-dlp failed to create file");
       return res.status(500).json({ error: "Erreur téléchargement" });
     }
 
