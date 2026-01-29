@@ -9,7 +9,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const YTDLP = path.join(process.cwd(), "bin", "yt-dlp");
+// yt-dlp stocké dans backend/bin
+const YTDLP_PATH =
+  process.platform === "win32"
+    ? path.join(process.cwd(), "backend", "bin", "yt-dlp.exe")
+    : path.join(process.cwd(), "backend", "bin", "yt-dlp");
 
 app.post("/download", (req, res) => {
   const { url } = req.body;
@@ -20,23 +24,29 @@ app.post("/download", (req, res) => {
   const args = [
     url,
     "-f",
-    "bv*[height<=1080]/b[height<=1080]",
+    "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]/best",
     "--merge-output-format",
     "mp4",
     "--no-playlist",
+    "--no-warnings",
     "-o",
     output
   ];
 
   console.log("Downloading:", url);
 
-  const proc = spawn(YTDLP, args);
+  const proc = spawn(YTDLP_PATH, args);
 
   proc.stderr.on("data", d => console.log(d.toString()));
 
-  proc.on("close", () => {
-    if (!fs.existsSync(output)) {
-      console.log("yt-dlp failed to create file");
+  proc.on("error", err => {
+    console.error("yt-dlp failed:", err);
+    return res.status(500).json({ error: "yt-dlp error" });
+  });
+
+  proc.on("close", code => {
+    if (code !== 0 || !fs.existsSync(output)) {
+      console.log("Download failed");
       return res.status(500).json({ error: "Erreur téléchargement" });
     }
 
